@@ -190,7 +190,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
   if (dottyIde.enabled) {
     outputChannel.appendLine(
       `Metals will not start since Dotty is enabled for this workspace. ` +
-        `To enable Metals, remove the file ${dottyIde.path} and run 'Reload window'`
+      `To enable Metals, remove the file ${dottyIde.path} and run 'Reload window'`
     );
     return;
   }
@@ -222,7 +222,7 @@ function fetchAndLaunchMetals(context: ExtensionContext, javaHome: string) {
     javaConfig,
   });
 
-  const title = `Downloading Metals v${serverVersion}`;
+  const title = `Downloading Metals ${serverVersion}`;
   return trackDownloadProgress(title, outputChannel, fetchProcess).then(
     (classpath) => {
       return launchMetals(
@@ -421,6 +421,8 @@ function launchMetals(
         ServerCommands.CancelCompilation,
         ServerCommands.AmmoniteStart,
         ServerCommands.AmmoniteStop,
+        ServerCommands.ScalaCliStart,
+        ServerCommands.ScalaCliStop,
       ].forEach((command) => {
         registerCommand("metals." + command, async () =>
           client.sendRequest(ExecuteCommandRequest.type, { command: command })
